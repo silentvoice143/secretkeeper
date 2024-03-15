@@ -40,6 +40,7 @@ const QRCodeGenerator: React.FC = () => {
     // Fallback for sharing via WhatsApp
 
     htmlToImage.toBlob(qrRef.current).then(function (blob) {
+      if (!blob) return;
       const filesArray = [
         new File([blob], "qrcode.png", { type: "image/png" }),
       ];
