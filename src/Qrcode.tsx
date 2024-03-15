@@ -21,6 +21,7 @@ const QRCodeGenerator: React.FC = () => {
   };
 
   const downloadQRCode = async () => {
+    if (!qrRef.current) return;
     const dataUrl = await htmlToImage.toPng(qrRef.current, {
       quality: 1,
       width: qrRef.current.offsetWidth * 2,
