@@ -23,10 +23,15 @@ const QRCodeGenerator: React.FC = () => {
   const downloadQRCode = async () => {
     if (!qrRef.current) return;
 
+    const offsetWidth = qrRef.current.offsetWidth;
+    const offsetHeight = qrRef.current.offsetHeight;
+
+    if (offsetWidth === undefined || offsetHeight === undefined) return;
+
     const dataUrl = await htmlToImage.toPng(qrRef.current, {
       quality: 1,
-      // width: qrRef.current.offsetWidth * 2,
-      // height: qrRef.current.offsetHeight * 2,
+      width: offsetWidth * 2,
+      height: offsetHeight * 2,
     });
 
     // download image
