@@ -12,7 +12,7 @@ const QRCodeGenerator: React.FC = () => {
     setInputValue(e.target.value);
   };
 
-  const qrRef = useRef(null);
+  const qrRef = useRef();
 
   const generateQRCode = () => {
     // Generate your QR code data here, for example:
