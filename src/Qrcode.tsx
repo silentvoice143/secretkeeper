@@ -12,7 +12,7 @@ const QRCodeGenerator: React.FC = () => {
     setInputValue(e.target.value);
   };
 
-  const qrRef = useRef<null | HTMLElement>(null);
+  const qrRef = useRef(null);
 
   const generateQRCode = () => {
     // Generate your QR code data here, for example:
@@ -38,14 +38,13 @@ const QRCodeGenerator: React.FC = () => {
 
   const shareQRCode = () => {
     if (!qrRef.current) return;
+    // Fallback for sharing via WhatsApp
 
     htmlToImage.toBlob(qrRef.current).then(function (blob) {
       if (!blob) return;
-
       const filesArray = [
         new File([blob], "qrcode.png", { type: "image/png" }),
       ];
-
       if (navigator.share) {
         navigator
           .share({
@@ -56,19 +55,22 @@ const QRCodeGenerator: React.FC = () => {
           .then(() => console.log("Shared successfully"))
           .catch((error) => console.error("Error sharing:", error));
       } else {
+        // console.log("Web Share API not supported");
         const blobUrl = URL.createObjectURL(blob); // Convert Blob to a data URL
         const whatsappURL = `whatsapp://send?text=Scan this QR code&files=${encodeURIComponent(
           blobUrl
         )}`;
 
+        // Fallback for sharing via email
         const emailBody = "Scan this QR code";
         const emailSubject = "QR Code";
         const emailURL = `mailto:?subject=${encodeURIComponent(
           emailSubject
         )}&body=${encodeURIComponent(emailBody)}`;
-
-        window.open(emailURL); // Open email client
-        window.location.href = whatsappURL; // Open WhatsApp
+        // Open a new window to trigger the default email client
+        window.open(emailURL);
+        // Open WhatsApp if the device supports it
+        window.location.href = whatsappURL;
       }
     });
   };
