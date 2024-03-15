@@ -12,7 +12,7 @@ const QRCodeGenerator: React.FC = () => {
     setInputValue(e.target.value);
   };
 
-  const qrRef = useRef();
+  const qrRef = useRef(null);
 
   const generateQRCode = () => {
     // Generate your QR code data here, for example:
@@ -22,10 +22,11 @@ const QRCodeGenerator: React.FC = () => {
 
   const downloadQRCode = async () => {
     if (!qrRef.current) return;
+
     const dataUrl = await htmlToImage.toPng(qrRef.current, {
       quality: 1,
-      width: qrRef.current.offsetWidth * 2,
-      height: qrRef.current.offsetHeight * 2,
+      // width: qrRef.current.offsetWidth * 2,
+      // height: qrRef.current.offsetHeight * 2,
     });
 
     // download image
